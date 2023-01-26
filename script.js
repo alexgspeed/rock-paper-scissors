@@ -68,11 +68,18 @@ function playGame(userGuess,computerGuess){
 }
 
 function myEventHandler(event){
-    console.log(playGame(this.className,computerGenerate()));
+    playGame(this.className,computerGenerate());
+    this.classList.add('clicked');
+}
+
+function removeTransition(e){
+    if(e.propertyName !== 'transform') return;
+    this.classList.remove('clicked');
 }
 
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => button.addEventListener('click',myEventHandler));
+buttons.forEach(button => button.addEventListener('transitionend',removeTransition));
 
 const container = document.querySelector('.middleRow');
 const content = document.createElement('p');
