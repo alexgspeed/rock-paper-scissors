@@ -32,18 +32,49 @@ function computerGenerate(){
 }
 
 function playGame(userGuess,computerGuess){
-    userGuess = userGuess.toLowerCase();
-    if (!(userGuess == 'rock' || userGuess == 'paper' || userGuess == 'scissors')){ 
-        return ('You need to type rock, paper, or scissors');
-    }else if (userGuess == computerGuess){
-        ties++;
-       return (`You and the computer both selected ${userGuess}. A tie!`);
-    }else if ((userGuess == 'scissors' && computerGuess == 'paper') || 
-              (userGuess == 'rock' && computerGuess == 'scissors') || 
-              (userGuess == 'paper' && computerGuess == 'rock') ){
-        wins++;
-        return (`You chose ${userGuess} and the computer chose ${computerGuess}. You win!`);
-    } else {losses++; 
-        return (`You chose ${userGuess} and the computer chose ${computerGuess}. You lose!`);}
 
+        if (userGuess == computerGuess){
+            ties++;
+        content.textContent = `You and the computer both selected ${userGuess}. A tie!`;
+        container.appendChild(content);
+        }else if ((userGuess == 'scissors' && computerGuess == 'paper') || 
+                (userGuess == 'rock' && computerGuess == 'scissors') || 
+                (userGuess == 'paper' && computerGuess == 'rock') ){
+            wins++;
+            if (wins == 5){
+                content.textContent =`That's 5 wins, you're the winner!!!`;
+                container.appendChild(content);
+            }else{
+                content.textContent = `You chose ${userGuess} and the computer chose ${computerGuess}. You win!`;
+                container.appendChild(content);
+            }
+        } else {losses++;
+            if (losses == 5){
+                content.textContent =`That's 5 losses, you're the loser!!!`;
+                container.appendChild(content);
+            }else{
+                content.textContent = `You chose ${userGuess} and the computer chose ${computerGuess}. You lose!`;
+                container.appendChild(content);
+            }
+        }
+        scores.textContent = `Wins: ${wins} Losses: ${losses} Ties: ${ties}`;
+        container.appendChild(scores);
+        if(wins == 5 || losses == 5){
+                ties = 0;
+                wins = 0;
+                losses =0;
+        }
+    
 }
+
+function myEventHandler(event){
+    console.log(playGame(this.className,computerGenerate()));
+}
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click',myEventHandler));
+
+const container = document.querySelector('.middleRow');
+const content = document.createElement('p');
+const scores = document.createElement('p');
+
